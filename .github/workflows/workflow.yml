@@ -1,0 +1,22 @@
+name: Terraform Deployment
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    terraform:
+        runs-on: ubuntu-latest
+        env:
+            AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
+            AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_KEY }}
+        steps:
+            - name: Fetch the code
+              uses: actions/checkout@v3
+            - name: Install terraform
+              uses: hashicorp/setup-terraform@v4
+            - name: Initialize the code
+              run: terraform init
+            - name: Deploy the resource
+              run: terraform apply --auto-approve
+
